@@ -6,6 +6,7 @@ package pkcs11
 import (
 	"crypto"
 	"fmt"
+	"log"
 
 	"github.com/yahoo/crypki"
 )
@@ -29,6 +30,7 @@ type SignerPool struct {
 
 // newSignerPool initializes a signer pool based on the configuration parameters
 func newSignerPool(context PKCS11Ctx, nSigners int, slot uint, tokenLabel string, keyType crypki.PublicKeyAlgorithm) (sPool, error) {
+	log.Printf("tokenLabel: %s, nSigners: %d", tokenLabel, nSigners)
 	signers := make(chan signerWithSignAlgorithm, nSigners)
 	for i := 0; i < nSigners; i++ {
 		signerInstance, err := makeSigner(context, slot, tokenLabel, keyType)
